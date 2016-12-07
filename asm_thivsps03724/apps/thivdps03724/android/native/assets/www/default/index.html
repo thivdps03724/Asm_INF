@@ -1,0 +1,131 @@
+<!DOCTYPE HTML><html>
+    <head>
+        <meta charset="UTF-8">
+        <title>thivdps03724</title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <link href="worklight/worklight.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+        <script>
+		// Define WL namespace.
+		var WL = WL ? WL : {};
+		/**
+		 * WLClient configuration variables.
+		 * Values are injected by the deployer that packs the gadget.
+		 */
+		 WL.StaticAppProps = {
+   "APP_DISPLAY_NAME": "thivdps03724",
+   "APP_ID": "thivdps03724",
+   "APP_SERVICES_URL": "\/apps\/services\/",
+   "APP_VERSION": "1.0",
+   "ENVIRONMENT": "android",
+   "LOGIN_DISPLAY_TYPE": "embedded",
+   "WORKLIGHT_NATIVE_VERSION": "1132815573",
+   "WORKLIGHT_PLATFORM_VERSION": "6.3.0.0",
+   "WORKLIGHT_ROOT_URL": "\/apps\/services\/api\/thivdps03724\/android\/"
+};
+</script>
+		<script src="worklight/cordova.js"></script>
+		<script src="worklight/wljq.js"></script>
+		<script src="worklight/worklight.js"></script>
+		<script src="worklight/checksum.js"></script>
+		<script>window.$ = window.jQuery = WLJQ;</script>
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+			<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body style="padding-left: 5%; padding-right: 5%;">
+        <div id="wapper">
+<!-- đây là trang chu -->
+            <div id="AppDiv">
+                <h2>Danh s&aacute;ch sản phẩm</h2>
+                <div class="alert alert-success" id="lbl_add" style="display: none;">
+                    <strong>Th&ecirc;m mới th&agrave;nh c&ocirc;ng!</strong> Vui l&ograve;ng refresh lại trang.
+		  </div>
+                <div class="alert alert-success" id="lbl_delete" style="display: none; ">
+                    <strong>Xo&aacute; th&agrave;nh c&ocirc;ng!</strong> Vui l&ograve;ng refresh lại trang.
+		  </div>
+                <div class="alert alert-success" id="lbl_update" style="display: none;">
+                    <strong>Cập nhật th&agrave;nh c&ocirc;ng!</strong> Vui l&ograve;ng refresh lại trang.
+		  </div>
+                <div class="alert alert-danger" id="lbl_delete_fail" style="display: none; ">
+                    <strong>Xo&aacute; thất bại!</strong> Vui l&ograve;ng thử lại.
+			</div>
+                <div class="alert alert-danger" id="lbl_add_fail" style="display: none; ">
+                    <strong>Th&ecirc;m mới thất bại!</strong> Vui l&ograve;ng thử lại.
+			</div>
+                <div class="alert alert-danger" id="lbl_update_fail" style="display: none; ">
+                    <strong>Cập nhật thất bại!</strong> Vui l&ograve;ng thử lại.
+			</div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>T&ecirc;n</th>
+		        <th>Loại</th>
+		        <th>Gi&aacute;</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemsList">
+                    </tbody>
+                </table>
+                <button class="btn btn-success" data-dismiss="modal" data-target="#myModal" data-toggle="modal" onclick="Add()" type="button">Th&ecirc;m</button>
+            </div>
+<!-- đây là dialog -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+      <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal" type="button">&times;</button>
+                            <h4 class="modal-title">Chi tiết</h4>
+                        </div>
+                        <div class="modal-body" id="itemmodal">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="id">M&atilde;:</label>
+				      <input class="form-control" id="id" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">T&ecirc;n Sản phẩm:</label>
+				      <input class="form-control" id="name" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="type">Loại</label>
+				      <select class="form-control" id="type">
+				      </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Gi&aacute;:</label>
+				      <input class="form-control" id="price" type="text">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" data-dismiss="modal" id="add" onclick="AddFeeds();" type="button">Th&ecirc;m</button>
+		          <button class="btn btn-warning" data-dismiss="modal" id="up" onclick="UpdateCoffee();" type="button">C&acirc;p nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!-- Modal Xoá-->
+            <div class="modal fade" id="deleteModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal" type="button">&times;</button>
+                            <h4 class="modal-title">Bạn c&oacute; muốn xo&aacute; m&oacute;n n&agrave;y</h4>
+                        </div>
+                        <div class="modal-body" id="itemmodal">
+                            <p id="iddelete" style="color: #0066ff; font-weight: bold;"></p>
+                            <button class="btn btn-danger" data-dismiss="modal" onclick="DeleteCoffee();" type="button">C&oacute;</button>
+		          <button class="btn btn-primary" data-dismiss="modal" type="button">Kh&ocirc;ng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/SingleStepAuthRealmChallengeProcessor.js"></script>
+			<script src="js/initOptions.js"></script>
+    		<script src="js/main.js"></script>
+    		<script src="js/messages.js"></script>
+    </body>
+</html>
